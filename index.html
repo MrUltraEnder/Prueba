@@ -9,16 +9,26 @@
 <body>
     <div id="tablero"></div>
     <script>
+        var turno = 0;
         for (var i = 0; i < 9; i++) {
             document.getElementById("tablero").innerHTML +=
-                '<button onclick="diHola" type="button" class="btn btn-secondary btn-lg">✏</button>';
+                '<button id="b' +
+                i +
+                '" onclick="diHola(event)" type="button" class="btn btn-secondary btn-lg">✏</button>';
             if ((i + 1) % 3 === 0) {
                 document.getElementById("tablero").innerHTML += "<br>";
             }
         }
 
-        function diHola() {
-            alert("Hola");
+        function diHola(e) {
+            var nombre = e.target.id;
+            if (turno === 0) {
+                document.getElementById(nombre).innerHTML = "❌";
+            } else {
+                document.getElementById(nombre).innerHTML = "⭕";
+            }
+            document.getElementById(nombre).disabled = true;
+            turno = (turno + 1) % 2;
         }
     </script>
 </body>
