@@ -8,7 +8,10 @@
 <body>
     <div id="tablero"></div>
     <script>
-        document.getElementById("tablero").innerHTML = "Hola";
+        for (var i = 0; i < 9; i++) {
+            document.getElementById("tablero").innerHTML +=
+                '<button type="button" class="btn btn-secondary">Secondary</button>';
+        }
     </script>
 </body>
 
