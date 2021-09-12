@@ -9,6 +9,7 @@
 <body>
     <div id="tablero"></div>
     <script>
+        var juegoTerminado = false;
         var casillas = 9;
         var turno = 0;
         for (var i = 0; i < 9; i++) {
@@ -30,7 +31,9 @@
             }
             document.getElementById(nombre).disabled = true;
             turno = (turno + 1) % 2;
-            revisarGanador();
+            if (!juegoTerminado) {
+                revisarGanador();
+            }
         }
 
         function revisarGanador() {
@@ -39,7 +42,129 @@
                 document.getElementById("b1").innerHTML === "❌" &&
                 document.getElementById("b2").innerHTML === "❌"
             ) {
+                juegoTerminado = true;
                 alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b3").innerHTML === "❌" &&
+                document.getElementById("b4").innerHTML === "❌" &&
+                document.getElementById("b5").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b6").innerHTML === "❌" &&
+                document.getElementById("b7").innerHTML === "❌" &&
+                document.getElementById("b8").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b0").innerHTML === "❌" &&
+                document.getElementById("b3").innerHTML === "❌" &&
+                document.getElementById("b6").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b1").innerHTML === "❌" &&
+                document.getElementById("b4").innerHTML === "❌" &&
+                document.getElementById("b7").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b2").innerHTML === "❌" &&
+                document.getElementById("b5").innerHTML === "❌" &&
+                document.getElementById("b8").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b0").innerHTML === "❌" &&
+                document.getElementById("b4").innerHTML === "❌" &&
+                document.getElementById("b8").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+            if (
+                document.getElementById("b2").innerHTML === "❌" &&
+                document.getElementById("b4").innerHTML === "❌" &&
+                document.getElementById("b6").innerHTML === "❌"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ❌ ");
+            }
+
+            if (
+                document.getElementById("b0").innerHTML === "⭕" &&
+                document.getElementById("b1").innerHTML === "⭕" &&
+                document.getElementById("b2").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b3").innerHTML === "⭕" &&
+                document.getElementById("b4").innerHTML === "⭕" &&
+                document.getElementById("b5").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b6").innerHTML === "⭕" &&
+                document.getElementById("b7").innerHTML === "⭕" &&
+                document.getElementById("b8").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b0").innerHTML === "⭕" &&
+                document.getElementById("b3").innerHTML === "⭕" &&
+                document.getElementById("b6").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b1").innerHTML === "⭕" &&
+                document.getElementById("b4").innerHTML === "⭕" &&
+                document.getElementById("b7").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b2").innerHTML === "⭕" &&
+                document.getElementById("b5").innerHTML === "⭕" &&
+                document.getElementById("b8").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b0").innerHTML === "⭕" &&
+                document.getElementById("b4").innerHTML === "⭕" &&
+                document.getElementById("b8").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
+            }
+            if (
+                document.getElementById("b2").innerHTML === "⭕" &&
+                document.getElementById("b4").innerHTML === "⭕" &&
+                document.getElementById("b6").innerHTML === "⭕"
+            ) {
+                juegoTerminado = true;
+                alert("Ganador: ⭕ ");
             }
         }
     </script>
