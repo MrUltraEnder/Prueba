@@ -7,11 +7,19 @@
 </head>
 
 <body>
-    <div id="tablero"></div>
+    <div id="tablero" style="margin-bottom: 20px"></div>
+    <div id="tablero1" style="margin-bottom: 20px"></div>
+    <div id="tablero2" style="margin-bottom: 20px"></div>
+    <div id="reset" style="margin-bottom: 40px"></div>
     <script>
         var juegoTerminado = false;
         var casillas = 9;
+        var principio = 0;
         var turno = 0;
+        document.getElementById("reset").innerHTML +=
+            '<button id="b' +
+            i +
+            '" onclick="Reset()" type="button" class="btn btn-secondary btn-lg">Reset</button>';
         for (var i = 0; i < 9; i++) {
             document.getElementById("tablero").innerHTML +=
                 '<button id="b' +
@@ -21,150 +29,240 @@
                 document.getElementById("tablero").innerHTML += "<br>";
             }
         }
-
-        function marcarCasilla(e) {
-            var nombre = e.target.id;
-            if (turno === 0) {
-                document.getElementById(nombre).innerHTML = "❌";
-            } else {
-                document.getElementById(nombre).innerHTML = "⭕";
+        for (var i = 0; i < 9; i++) {
+            document.getElementById("tablero1").innerHTML +=
+                '<button id="c' +
+                i +
+                '" onclick="marcarCasilla(event)" type="button" class="btn btn-secondary btn-lg">✏</button>';
+            if ((i + 1) % 3 === 0) {
+                document.getElementById("tablero1").innerHTML += "<br>";
             }
-            document.getElementById(nombre).disabled = true;
-            turno = (turno + 1) % 2;
-            if (!juegoTerminado) {
-                revisarGanador();
+        }
+        for (var i = 0; i < 9; i++) {
+            document.getElementById("tablero2").innerHTML +=
+                '<button id="d' +
+                i +
+                '" onclick="marcarCasilla(event)" type="button" class="btn btn-secondary btn-lg">✏</button>';
+            if ((i + 1) % 3 === 0) {
+                document.getElementById("tablero2").innerHTML += "<br>";
             }
         }
 
-        function revisarGanador() {
-            if (
-                document.getElementById("b0").innerHTML === "❌" &&
-                document.getElementById("b1").innerHTML === "❌" &&
-                document.getElementById("b2").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b3").innerHTML === "❌" &&
-                document.getElementById("b4").innerHTML === "❌" &&
-                document.getElementById("b5").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b6").innerHTML === "❌" &&
-                document.getElementById("b7").innerHTML === "❌" &&
-                document.getElementById("b8").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b0").innerHTML === "❌" &&
-                document.getElementById("b3").innerHTML === "❌" &&
-                document.getElementById("b6").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b1").innerHTML === "❌" &&
-                document.getElementById("b4").innerHTML === "❌" &&
-                document.getElementById("b7").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b2").innerHTML === "❌" &&
-                document.getElementById("b5").innerHTML === "❌" &&
-                document.getElementById("b8").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b0").innerHTML === "❌" &&
-                document.getElementById("b4").innerHTML === "❌" &&
-                document.getElementById("b8").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
-            if (
-                document.getElementById("b2").innerHTML === "❌" &&
-                document.getElementById("b4").innerHTML === "❌" &&
-                document.getElementById("b6").innerHTML === "❌"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ❌ ");
-            }
+        function Reset() {
+            location.reload();
+        }
 
-            if (
-                document.getElementById("b0").innerHTML === "⭕" &&
-                document.getElementById("b1").innerHTML === "⭕" &&
-                document.getElementById("b2").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
+        function marcarCasilla(e) {
+            if (!juegoTerminado) {
+                var nombre = e.target.id;
+                if (turno === 0) {
+                    document.getElementById(nombre).innerHTML = "❌";
+                } else {
+                    document.getElementById(nombre).innerHTML = "⭕";
+                }
+                document.getElementById(nombre).disabled = true;
+                turno = (turno + 1) % 2;
+
+                revisarGanador(nombre);
+                RevisarDiagonal(nombre);
+                Revisar3D();
+                console.log(nombre);
             }
-            if (
-                document.getElementById("b3").innerHTML === "⭕" &&
-                document.getElementById("b4").innerHTML === "⭕" &&
-                document.getElementById("b5").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
+        }
+
+        function revisarGanador(g) {
+            var Casilla;
+            if (g.includes("b")) {
+                Casilla = "b";
+            } else if (g.includes("c")) {
+                Casilla = "c";
+            } else if (g.includes("d")) {
+                Casilla = "d";
             }
-            if (
-                document.getElementById("b6").innerHTML === "⭕" &&
-                document.getElementById("b7").innerHTML === "⭕" &&
-                document.getElementById("b8").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
+            for (var jugador = 0; jugador <= 1; jugador++) {
+                var marca = "";
+                if (jugador === 0) {
+                    marca = "❌";
+                } else {
+                    marca = "⭕";
+                }
+
+                for (var a = 0; a < 2; a++) {
+                    var saltear;
+                    var limite;
+                    var limite2;
+                    var PrincipioSuma;
+                    if (a < 1) {
+                        limite = 6;
+                        limite2 = 2;
+                        saltear = 1;
+                        PrincipioSuma = 3;
+                    } else {
+                        PrincipioSuma = 1;
+                        limite = 2;
+                        limite2 = 6;
+                        saltear = 3;
+                    }
+                    for (
+                        var principio = 0; principio <= limite; principio += PrincipioSuma
+                    ) {
+                        var linea = true;
+
+                        for (var i = principio; i <= limite2 + principio; i += saltear) {
+                            var Ncasilla = Casilla + i;
+                            linea &= document.getElementById(Ncasilla).innerHTML === marca;
+                        }
+
+                        if (linea) {
+                            juegoTerminado = true;
+                            alert("Ganador: " + marca);
+                        }
+                    }
+                }
             }
-            if (
-                document.getElementById("b0").innerHTML === "⭕" &&
-                document.getElementById("b3").innerHTML === "⭕" &&
-                document.getElementById("b6").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
+        }
+
+        function RevisarDiagonal(g) {
+            var Casilla;
+            if (g.includes("b")) {
+                Casilla = "b";
+            } else if (g.includes("c")) {
+                Casilla = "c";
+            } else if (g.includes("d")) {
+                Casilla = "d";
             }
-            if (
-                document.getElementById("b1").innerHTML === "⭕" &&
-                document.getElementById("b4").innerHTML === "⭕" &&
-                document.getElementById("b7").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
+            for (var jugador = 0; jugador <= 1; jugador++) {
+                var marca = "";
+                if (jugador === 0) {
+                    marca = "❌";
+                } else {
+                    marca = "⭕";
+                }
+
+                for (var a = 0; a <= 1; a++) {
+                    var linea = true;
+                    console.log(a);
+                    var inicio;
+                    var limite;
+                    var saltear;
+                    switch (a) {
+                        case 0:
+                            inicio = 2;
+                            limite = 6;
+                            saltear = 2;
+                            break;
+                        case 1:
+                            inicio = 0;
+                            limite = 8;
+                            saltear = 4;
+                            break;
+                    }
+
+                    for (var i = inicio; i <= limite; i += saltear) {
+                        var Ncasilla = Casilla + i;
+                        linea &= document.getElementById(Ncasilla).innerHTML === marca;
+                    }
+
+                    if (linea) {
+                        juegoTerminado = true;
+                        alert("Ganador: " + marca);
+                    }
+                }
             }
-            if (
-                document.getElementById("b2").innerHTML === "⭕" &&
-                document.getElementById("b5").innerHTML === "⭕" &&
-                document.getElementById("b8").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
-            }
-            if (
-                document.getElementById("b0").innerHTML === "⭕" &&
-                document.getElementById("b4").innerHTML === "⭕" &&
-                document.getElementById("b8").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
-            }
-            if (
-                document.getElementById("b2").innerHTML === "⭕" &&
-                document.getElementById("b4").innerHTML === "⭕" &&
-                document.getElementById("b6").innerHTML === "⭕"
-            ) {
-                juegoTerminado = true;
-                alert("Ganador: ⭕ ");
+        }
+
+        function Revisar3D() {
+            for (var jugador = 0; jugador <= 1; jugador++) {
+                var marca = "";
+                if (jugador === 0) {
+                    marca = "❌";
+                } else {
+                    marca = "⭕";
+                }
+
+                for (var i = 0; i <= 8; i += 1) {
+                    if (
+                        document.getElementById("b" + i).innerHTML === marca &&
+                        document.getElementById("c" + i).innerHTML === marca &&
+                        document.getElementById("d" + i).innerHTML === marca
+                    ) {
+                        juegoTerminado = true;
+                        alert("Ganador: " + marca);
+                    }
+                }
+
+                if (
+                    document.getElementById("b" + 0).innerHTML === marca &&
+                    document.getElementById("c" + 4).innerHTML === marca &&
+                    document.getElementById("d" + 8).innerHTML === marca
+                ) {
+                    juegoTerminado = true;
+                    alert("Ganador: " + marca);
+                }
+                if (
+                    document.getElementById("b" + 2).innerHTML === marca &&
+                    document.getElementById("c" + 4).innerHTML === marca &&
+                    document.getElementById("d" + 6).innerHTML === marca
+                ) {
+                    juegoTerminado = true;
+                    alert("Ganador: " + marca);
+                }
+                if (
+                    document.getElementById("b" + 8).innerHTML === marca &&
+                    document.getElementById("c" + 4).innerHTML === marca &&
+                    document.getElementById("d" + 0).innerHTML === marca
+                ) {
+                    juegoTerminado = true;
+                    alert("Ganador: " + marca);
+                }
+                if (
+                    document.getElementById("b" + 6).innerHTML === marca &&
+                    document.getElementById("c" + 4).innerHTML === marca &&
+                    document.getElementById("d" + 2).innerHTML === marca
+                ) {
+                    juegoTerminado = true;
+                    alert("Ganador: " + marca);
+                }
+                for (var d = 0; d <= 6; d += 3) {
+                    if (
+                        document.getElementById("b" + (d + 0)).innerHTML === marca &&
+                        document.getElementById("c" + (d + 1)).innerHTML === marca &&
+                        document.getElementById("d" + (d + 2)).innerHTML === marca
+                    ) {
+                        juegoTerminado = true;
+                        alert("Ganador: " + marca);
+                    }
+                }
+                for (var d = 0; d <= 6; d += 3) {
+                    if (
+                        document.getElementById("b" + (d + 2)).innerHTML === marca &&
+                        document.getElementById("c" + (d + 1)).innerHTML === marca &&
+                        document.getElementById("d" + (d + 0)).innerHTML === marca
+                    ) {
+                        juegoTerminado = true;
+                        alert("Ganador: " + marca);
+                    }
+                }
+                for (var d = 0; d < 3; d += 1) {
+                    if (
+                        document.getElementById("b" + (d + 0)).innerHTML === marca &&
+                        document.getElementById("c" + (d + 3)).innerHTML === marca &&
+                        document.getElementById("d" + (d + 6)).innerHTML === marca
+                    ) {
+                        juegoTerminado = true;
+                        alert("Ganador: " + marca);
+                    }
+                }
+                for (var e = 0; e < 3; e += 1) {
+                    if (
+                        document.getElementById("b" + (e + 6)).innerHTML === marca &&
+                        document.getElementById("c" + (e + 3)).innerHTML === marca &&
+                        document.getElementById("d" + (e + 0)).innerHTML === marca
+                    ) {
+                        juegoTerminado = true;
+                        alert("Ganador: " + marca);
+                    }
+                }
             }
         }
     </script>
